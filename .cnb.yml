@@ -1,0 +1,28 @@
+main:
+  push: 
+    - services:
+        - docker
+      ifModify:
+        - Dockerfile
+      stages:
+        - name: docker build & push
+          script: |
+            docker buildx build -t ${CNB_DOCKER_REGISTRY}/${CNB_REPO_SLUG_LOWERCASE}:latest --push .
+  vscode:
+    - runner:
+        cpus: 4
+      docker:
+        image: docker.cnb.cool/bring/runners/clawdbotrunner
+      services:
+        - name: vscode
+          options:
+            onlyPreview: true
+            launch: chmod +x ./start.sh && bash ./start.sh
+            keepAliveTimeout: 3600000
+            daemon: false
+        - docker
+dev:
+  vscode:
+    - services:
+      - vscode
+      - docker
