@@ -1,0 +1,6 @@
+workspace:
+  launch:
+    button:
+      name: 替我自由
+      description: 一键启动云原生 Moltbot ！
+      hoverImage: ./docs/start.svg
